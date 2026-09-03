@@ -38,7 +38,160 @@ function home(){shell(`<main><section class="hero"><div class="hero-copy"><span 
 <section class="section blush memory-section"><span class="eyebrow">NƠI NHỮNG KỶ NIỆM ĐƯỢC LƯU GIỮ</span><h2>Một khung ảnh — <em>Cả một thế giới riêng.</em></h2><p class="section-lead">FRAMIE đưa những kỷ niệm từ thế giới số vào một món quà hữu hình — nơi mỗi hình ảnh, thanh âm và lời nhắn đều mang một ý nghĩa riêng.</p><div class="couple-story-grid"><article><img src="/couple-1.jpg" alt="Khoảnh khắc của một cặp đôi"><span>01 — Giữ lại khoảnh khắc.</span><h3>Một bức ảnh đẹp không chỉ để ngắm.</h3><p>Một bức ảnh đẹp không chỉ để ngắm, mà để lưu giữ cảm xúc phía sau nó.</p></article><article><img src="/couple-2.jpg" alt="Cặp đôi với bó hoa"><span>02 — Chạm để mở ký ức.</span><h3>Một lần chạm, một câu chuyện mở ra.</h3><p>Một cú chạm NFC đưa bạn trở về với những lời nhắn, giai điệu và khoảnh khắc thân thương.</p></article></div></section>
 <section class="story"><div class="story-art"><div class="story-frame"><div>for the<br><i>little things.</i></div></div></div><article><span class="eyebrow">VỀ FRAMIE</span><h2>Biến lời yêu thương<br><em>thành một món quà.</em></h2><p>FRAMIE biến những lời yêu thương khó nói thành một món quà có thể chạm, nghe và cảm nhận. Món quà không chỉ được trao đi — nó còn có thể kể lại câu chuyện tình yêu của hai người mỗi khi được mở ra.</p><blockquote>“Không chỉ tặng một món quà — cùng nhau lưu giữ một câu chuyện.”</blockquote><a class="text-link" href="#/about">Xem câu chuyện Framie →</a></article></section>
 <section class="section testimonials"><div class="section-head-row"><div><span class="eyebrow">KHÁCH HÀNG NÓI GÌ?</span><h2>Những câu chuyện<br><em>được trao lại.</em></h2></div><span class="rating">★★★★★ <small>4.9/5 từ người mua</small></span></div><div class="testimonial-grid"><article class="testimonial"><div class="stars">★★★★★</div><p>“Món quà nhỏ nhưng cảm giác nhận được rất riêng. Mình thích nhất là phần nghe lại lời nhắn của người ấy.”</p><b>Minh & Vy · Kỷ niệm 2 năm</b><div class="avatar">M</div></article><article class="testimonial"><div class="stars">★★★★★</div><p>“Tụi mình chọn một bức ảnh ở Hội An và thêm bài hát hai đứa cùng thích. Rất bất ngờ và dễ thương.”</p><b>Tuấn & Linh · Quà sinh nhật</b><div class="avatar">T</div></article><article class="testimonial"><div class="stars">★★★★★</div><p>“Khung nhìn đẹp, nhưng điều giữ mình lại là câu chuyện phía sau nó. Sau vài tháng vẫn mở lại để nghe.”</p><b>Hà & Nam · Ngày đặc biệt</b><div class="avatar">H</div></article></div></section><section class="section final-cta"><span class="eyebrow">MADE FOR TWO</span><h2>Một món quà nhỏ.<br><em>Một câu chuyện thật dài.</em></h2><a class="btn primary" href="#/setup">Thiết lập Framie →</a></section></main>`);$$('.choose-plan').forEach(b=>b.onclick=()=>{S.productPlan=b.dataset.plan;S.design.plan=b.dataset.plan;persist();location.hash='/setup'});$('#demo-play')?.addEventListener('click',()=>alert('Demo trải nghiệm: chạm NFC → mở ảnh → nghe lời nhắn → mở nhạc Spotify.'));$('#demo-play-visual')?.addEventListener('click',()=>alert('Demo trải nghiệm đang ở chế độ mô phỏng.'))}
-function about(){shell(`<main class="about-page about-text-only"><section class="about-hero about-minimal-hero"><div><span class="eyebrow">VỀ FRAMIE · MADE FOR TWO</span><h1>Không chỉ tặng một món quà — <em>cùng nhau lưu giữ một câu chuyện.</em></h1><p>Framie là nền tảng quà tặng cá nhân hóa dành cho các cặp đôi, giúp biến một món quà vật lý thành một trải nghiệm kỷ niệm riêng thông qua sự kết hợp giữa thiết kế cá nhân hóa, NFC và Digital Experience.</p><a class="btn primary" href="#/setup">Thiết lập Framie →</a></div></section><section class="about-story-block"><div class="about-section-label">01 · CÂU CHUYỆN</div><div><span class="eyebrow">VALUE PROPOSITION</span><h2>Biến những lời yêu thương khó nói<br><em>thành một món quà có thể chạm, nghe và cảm nhận.</em></h2><p>Framie giúp lưu giữ những lời nhắn, hình ảnh, âm thanh và khoảnh khắc riêng của hai người, để một món quà không chỉ được trao đi mà còn có thể kể lại câu chuyện tình yêu của họ mỗi khi được mở ra.</p></div></section><section class="about-pillars"><div class="about-section-label">02 · TẦM NHÌN & SỨ MỆNH</div><div class="pillar-grid"><article><span>VISION</span><h3>Tiên phong quà tặng <em>Phygital tại Việt Nam.</em></h3><p>Framie mong muốn trở thành thương hiệu tiên phong tại Việt Nam trong lĩnh vực quà tặng "Phygital" (Physical x Digital), định hình lại văn hóa trao gửi và lưu giữ kỷ niệm của thế hệ trẻ trong kỷ nguyên số.</p></article><article><span>MISSION</span><h3>Kết nối hoàn hảo giữa <em>thẩm mỹ vật lý và chiều sâu số.</em></h3><p>Kết nối hoàn hảo giữa giá trị thẩm mỹ vật lý và chiều sâu cảm xúc kỹ thuật số. Nhiệm vụ của chúng mình là mang đến cho người dùng một "không gian lưu trữ cá nhân hóa", nơi mỗi cú chạm NFC biến một khung ảnh gỗ mộc mạc thành một cỗ máy thời gian đa giác quan – riêng tư, bảo mật và hoàn toàn tách biệt khỏi sự xô bồ của mạng xã hội.</p></article></div></section><section class="about-values about-values-three"><div class="about-section-label">03 · GIÁ TRỊ CỐT LÕI</div><div class="value-cards"><article><b>01</b><h3>Cá nhân hóa</h3><p>Tự do gửi gắm dấu ấn riêng độc bản qua kiểu khung, màu sắc, hình ảnh, sticker, âm thanh và các mẫu gợi ý.</p></article><article><b>02</b><h3>Đổi mới trải nghiệm</h3><p>Xóa nhòa ranh giới vật lý và số qua NFC, tạo ra trải nghiệm đa giác quan bằng chạm, hình ảnh và thanh âm.</p></article><article><b>03</b><h3>Gắn kết</h3><p>Khơi gợi ký ức và làm sâu sắc mối quan hệ bằng những chi tiết, giọng nói và giai điệu quen thuộc.</p></article></div></section><section class="about-positioning"><div class="about-section-label">04 · ĐỊNH VỊ</div><div><h2>Quà tặng dành cho <em>hai người, một câu chuyện.</em></h2><div class="positioning-grid"><article><b>Đối tượng</b><p>Các cặp đôi trẻ muốn tìm một món quà cá nhân hóa, ý nghĩa và khác biệt trong những dịp đặc biệt.</p></article><article><b>Nhu cầu</b><p>Món quà cần thể hiện câu chuyện, cảm xúc và kỷ niệm riêng của hai người.</p></article><article><b>Khoảng trống thị trường</b><p>Quà truyền thống có giá trị vật lý; digital có cảm xúc nhưng thiếu vật phẩm hữu hình. Framie kết nối hai phần ấy.</p></article><article><b>Brand Promise</b><p>Không chỉ tặng một món quà — cùng nhau lưu giữ một câu chuyện.</p></article></div></div></section><section class="about-cta"><span class="eyebrow">KEEP WHAT MATTERS</span><h2>Một món quà nhỏ.<br><em>Một câu chuyện thật dài.</em></h2><a class="btn primary" href="#/shop">Khám phá Framie →</a></section></main>`)}
+function about(){shell(`<main class="about-page about-text-only"><section class="about-hero about-minimal-hero"><div><span class="eyebrow">VỀ FRAMIE · MADE FOR TWO</span><h1>Không chỉ tặng một món quà — <em>cùng nhau lưu giữ một câu chuyện.</em></h1><section class="about-story-block">
+ <div class="about-section-label">
+  01 · CÂU CHUYỆN THƯƠNG HIỆU
+</div>
+
+  <div class="about-story-content">
+    <span class="eyebrow"></span>
+
+    <h2>
+      <br>
+      <em>Câu chuyện thương hiệu</em>
+    </h2>
+
+    <p>
+      Tình yêu đâu chỉ có những ngày đầy ắp màu hồng ngọt ngào mà còn có những lần bất đồng quan điểm hay giận dỗi. Khi bạn muốn lựa chọn một món quà tặng kỷ niệm mang tính cá nhân hóa, kết nối để làm lành hay những đêm yêu xa muốn nghe một giọng nói ấm áp quan tâm. Tụi mình nhận ra “Ảnh trong máy thì trôi mất, khung hình để bàn lại quá im lìm chẳng thể mang đến giá trị cảm xúc đa giác quan”.
+    </p>
+
+    <p>
+      Tụi mình tự hỏi “Giá như những chiếc khung ảnh xinh xắn đó có thể thay bạn nói ra những điều bạn khó nói ra trực tiếp hay đoạn nhạc ngày tỏ tình thì đáng yêu biết mấy!”. Và từ đó <strong>Framie</strong> ra đời.
+    </p>
+
+    <p>
+      Đến với <strong>Framie</strong>, bạn sẽ được tự tay may đo để tạo ra chiếc khung ảnh mang dấu ấn riêng của hai bạn. Từ chọn kiểu khung, màu sắc đến để một chiếc NFC bé xinh chứa những giai điệu quen thuộc của hai bạn. Chỉ cần một cái chạm nhẹ điện thoại vào khung, thanh âm thân thương sẽ vang lên mang đến sự bất ngờ và giúp món quà của bạn trở nên thật đáng nhớ. <strong>Framie</strong> sẽ là chiếc phao giúp bạn dỗ người yêu của mình những khi phụng phịu hay cái ôm vô hình sưởi ấm nỗi nhớ khi yêu xa và là món quà tạo nên sự khác biệt.
+    </p>
+
+   <div class="about-story-footer">
+
+  <p class="about-story-ending">
+    <strong>Framie - Gói khoảnh khắc, giữ yêu thương.</strong>
+  </p>
+
+  <a class="btn primary" href="#/setup">
+    Thiết lập Framie →
+  </a>
+
+</div>
+</div>
+</section>
+
+<section class="about-pillars">
+  <div class="about-section-label">02 · TẦM NHÌN & SỨ MỆNH</div>
+
+  <div class="pillar-grid">
+    <article>
+      <span>VISION</span>
+      <h3>Tiên phong quà tặng <em>Phygital tại Việt Nam.</em></h3>
+      <p>
+        Framie mong muốn trở thành thương hiệu tiên phong tại Việt Nam trong lĩnh vực
+        quà tặng "Phygital" (Physical x Digital), định hình lại văn hóa trao gửi và
+        lưu giữ kỷ niệm của thế hệ trẻ trong kỷ nguyên số.
+      </p>
+    </article>
+
+    <article>
+      <span>MISSION</span>
+      <h3>Kết nối hoàn hảo giữa <em>thẩm mỹ vật lý và chiều sâu số.</em></h3>
+      <p>
+        Kết nối hoàn hảo giữa giá trị thẩm mỹ vật lý và chiều sâu cảm xúc kỹ thuật số.
+        Nhiệm vụ của chúng mình là mang đến cho người dùng một "không gian lưu trữ
+        cá nhân hóa", nơi mỗi cú chạm NFC biến một khung ảnh gỗ mộc mạc thành một
+        cỗ máy thời gian đa giác quan – riêng tư, bảo mật và hoàn toàn tách biệt
+        khỏi sự xô bồ của mạng xã hội.
+      </p>
+    </article>
+  </div>
+</section>
+
+<section class="about-values about-values-three">
+  <div class="about-section-label">03 · GIÁ TRỊ CỐT LÕI</div>
+
+  <div class="value-cards">
+    <article>
+      <b>01</b>
+      <h3>Cá nhân hóa</h3>
+      <p>
+        Tự do gửi gắm dấu ấn riêng độc bản qua kiểu khung, màu sắc, hình ảnh,
+        sticker, âm thanh và các mẫu gợi ý.
+      </p>
+    </article>
+
+    <article>
+      <b>02</b>
+      <h3>Đổi mới trải nghiệm</h3>
+      <p>
+        Xóa nhòa ranh giới vật lý và số qua NFC, tạo ra trải nghiệm đa giác quan
+        bằng chạm, hình ảnh và thanh âm.
+      </p>
+    </article>
+
+    <article>
+      <b>03</b>
+      <h3>Gắn kết</h3>
+      <p>
+        Khơi gợi ký ức và làm sâu sắc mối quan hệ bằng những chi tiết,
+        giọng nói và giai điệu quen thuộc.
+      </p>
+    </article>
+  </div>
+</section>
+
+<section class="about-positioning">
+  <div class="about-section-label">04 · ĐỊNH VỊ</div>
+
+  <div>
+    <h2>Quà tặng dành cho <em>hai người, một câu chuyện.</em></h2>
+
+    <div class="positioning-grid">
+      <article>
+        <b>Đối tượng</b>
+        <p>
+          Các cặp đôi trẻ muốn tìm một món quà cá nhân hóa, ý nghĩa và khác biệt
+          trong những dịp đặc biệt.
+        </p>
+      </article>
+
+      <article>
+        <b>Nhu cầu</b>
+        <p>
+          Món quà cần thể hiện câu chuyện, cảm xúc và kỷ niệm riêng của hai người.
+        </p>
+      </article>
+
+      <article>
+        <b>Khoảng trống thị trường</b>
+        <p>
+          Quà truyền thống có giá trị vật lý; digital có cảm xúc nhưng thiếu vật
+          phẩm hữu hình. Framie kết nối hai phần ấy.
+        </p>
+      </article>
+
+      <article>
+        <b>Brand Promise</b>
+        <p>
+          Không chỉ tặng một món quà — cùng nhau lưu giữ một câu chuyện.
+        </p>
+      </article>
+    </div>
+  </div>
+</section>
+
+<section class="about-cta">
+  <span class="eyebrow">KEEP WHAT MATTERS</span>
+
+  <h2>
+    Một món quà nhỏ.<br>
+    <em>Một câu chuyện thật dài.</em>
+  </h2>
+
+  <a class="btn primary" href="#/shop">
+    Khám phá Framie →
+  </a>
+</section>
+
+</main>`)}
 async function blog(){let posts=[];try{posts=await fetch(API+'/posts').then(r=>r.json())}catch{}shell(`<main class="page"><div class="page-head"><span class="eyebrow">BLOG</span><h1>Ý tưởng để<br><em>trao điều ý nghĩa.</em></h1><p>Những gợi ý nhỏ về quà tặng, NFC, thiết kế và cách kể chuyện bằng ký ức.</p><div class="search"><span>⌕</span><input id="search" placeholder="Tìm bài viết..."></div></div><div id="posts" class="blog-grid">${posts.map((p,i)=>`<a class="blog-card" href="#/blog/${p.slug}"><div class="blog-cover c${i%4}"><span>${String(i+1).padStart(2,'0')}</span></div><small>${esc(p.category)} · 4 phút đọc</small><h2>${esc(p.title)}</h2><p>${esc(p.excerpt)}</p><span>Đọc bài →</span></a>`).join('')}</div></main>`); $('#search')?.addEventListener('input',e=>$$('#posts .blog-card').forEach(c=>c.style.display=c.innerText.toLowerCase().includes(e.target.value.toLowerCase())?'block':'none'))}
 async function blogPost(slug){const p=await fetch(API+'/posts/'+encodeURIComponent(slug)).then(r=>r.json());if(p.message)return shell(`<main class="page"><h1>Không tìm thấy bài viết.</h1></main>`);shell(`<main class="page narrow post"><span class="eyebrow">${esc(p.category)} · 4 PHÚT</span><h1>${esc(p.title)}</h1><p class="lead">${esc(p.excerpt)}</p><div class="post-cover"><span>FRAMIE</span><strong>${esc(p.title)}</strong></div><div class="post-body">${esc(p.body).split(/\n+/).map(x=>`<p>${x}</p>`).join('')}</div><a class="text-link" href="#/blog">← Về Blog</a></main>`)}
 function shop(){shell(`<main class="page"><div class="page-head"><span class="eyebrow">CỬA HÀNG · MADE FOR COUPLES</span><h1>Chọn một chiếc Framie<br><em>để khởi đầu hành trình.</em></h1><p>Với ba mức trải nghiệm linh hoạt, Framie giúp bạn biến một kỷ niệm của hai người thành món quà hữu hình và một không gian digital riêng.</p></div><div class="shop-grid">${plans.map((p,i)=>{const sw=[['#ffffff','/couple-1.jpg'],['#E8D4D2','/couple-2.jpg'],['#FFD3D6','/framie-standard-couple.jpg']][i];return `<article class="shop-card" data-plan-card="${p.code}"><div class="shop-art"><div class="shop-frame-showcase"><div class="frame-product-shell" style="--frame-color:${sw[0]}"><div class="fake-frame shop-frame-${i+1}"><img src="${sw[1]}" alt="${p.name} preview"><span>NFC</span></div></div></div></div><div class="shop-info"><div class="plan-top"><b>${p.number}</b>${p.popular?'<span>Được chọn nhiều</span>':''}</div><h2>${p.name}</h2><p>${p.description}</p><ul>${p.features.map(f=>`<li>✓ ${f}</li>`).join('')}</ul><p class="fit"><b>Phù hợp:</b> ${p.note}</p><div class="price-row"><strong>${money(p.price)}</strong><button class="btn primary shop-setup" data-plan="${p.code}">Thiết lập →</button></div></div></article>`}).join('')}</div><section class="product-details"><span class="eyebrow">THÔNG TIN SẢN PHẨM</span><h2>Đẹp ở ngoài. Riêng ở bên trong.</h2><div class="tabs"><button class="active" data-tab="material">Chất liệu</button><button data-tab="spec">Thông số</button><button data-tab="use">Hướng dẫn</button><button data-tab="warranty">Bảo hành</button></div><div id="tab-panel" class="tab-panel"><p>Khung được định hướng theo phong cách premium, bề mặt tối giản, tông màu ấm và ưu tiên cảm giác quà tặng. Nội dung NFC là lớp số đi kèm sản phẩm.</p></div></section></main>`);$$('.shop-setup').forEach(b=>b.onclick=()=>{S.productPlan=b.dataset.plan;S.design.plan=S.productPlan;persist();location.hash='/setup'});const data={material:'Khung có các lựa chọn Trắng kem, Gỗ sáng, Đen, Beige, Hồng pastel và Đỏ trầm.',spec:'Kích thước 10×15, 13×18, 15×21 và 20×30 cm; khung đứng hoặc ngang.',use:'Thiết kế → xem lại → đặt hàng. Khi nhận quà, đưa điện thoại hỗ trợ NFC tới vùng NFC trên khung để mở trang riêng.',warranty:'Chính sách đổi trả và bảo hành được cập nhật theo đơn hàng thực tế. Liên hệ Framie khi cần hỗ trợ.'};$$('[data-tab]').forEach(b=>b.onclick=()=>{$$('[data-tab]').forEach(x=>x.classList.remove('active'));b.classList.add('active');$('#tab-panel').innerHTML=`<p>${data[b.dataset.tab]}</p>`})}
