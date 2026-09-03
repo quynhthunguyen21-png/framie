@@ -1,0 +1,247 @@
+{
+  "users": [
+    {
+      "id": 1788430225218,
+      "name": "Nguyễn Hồ Quỳnh Thư",
+      "email": "quynhthunguyen21@gmail.com",
+      "phone": "0364539533",
+      "address": "",
+      "password": "861f92b2e4979153fb8874c9b162603527cc77384183c97d267f94f406560760",
+      "createdAt": "2026-09-03T10:10:25.218Z"
+    }
+  ],
+  "designs": [
+    {
+      "id": 1788430417570,
+      "userId": 1788430225218,
+      "name": "Framie Standard · 13 x 18 cm",
+      "config": {
+        "plan": "standard",
+        "frame": "portrait",
+        "color": "beige",
+        "size": "13 x 18 cm",
+        "elements": [
+          {
+            "id": "e1788430499201",
+            "type": "image",
+            "src": "/storage/1788430499200-0031f61e.jpg",
+            "x": 50,
+            "y": 50,
+            "width": 100,
+            "height": 100,
+            "rotate": 0,
+            "z": 0,
+            "zoom": 1,
+            "cropX": 50,
+            "cropY": 50
+          },
+          {
+            "id": "e1",
+            "type": "text",
+            "x": 18.599200581395348,
+            "y": 66,
+            "size": 28,
+            "width": 70,
+            "rotate": 0,
+            "z": 3,
+            "text": "a little\npiece of us"
+          },
+          {
+            "id": "e2",
+            "type": "text",
+            "x": 18.823582848837212,
+            "y": 76.02993574766356,
+            "size": 11,
+            "width": 60,
+            "rotate": 0,
+            "z": 4,
+            "text": "tap to remember"
+          }
+        ]
+      },
+      "nfc": {
+        "title": "",
+        "text": "",
+        "elements": [
+          {
+            "id": "n1",
+            "type": "text",
+            "x": 50.31566722972973,
+            "y": 61.1868397887324,
+            "size": 24,
+            "width": 86,
+            "rotate": 0,
+            "z": 3,
+            "text": "Gửi một điều thật đẹp.",
+            "font": "Playfair Display"
+          },
+          {
+            "id": "n2",
+            "type": "text",
+            "x": 49.60620777027027,
+            "y": 65.47733274647888,
+            "size": 13,
+            "width": 86,
+            "rotate": 0,
+            "z": 4,
+            "text": "Một kỷ niệm có thể chạm vào.",
+            "font": "DM Sans"
+          },
+          {
+            "id": "n1788430150665",
+            "type": "audio",
+            "x": 50,
+            "y": 78,
+            "size": 13,
+            "width": 95,
+            "height": 51,
+            "rotate": 0,
+            "z": 5,
+            "text": "Mỗi khi em nhớ anh",
+            "label": "Mỗi khi em nhớ anh",
+            "src": "/storage/1788430272553-d1fd7c99.webm"
+          },
+          {
+            "id": "n1788430306298",
+            "type": "image",
+            "src": "/storage/1788430306295-30362939.jpg",
+            "x": 50,
+            "y": 38,
+            "width": 84,
+            "height": 220,
+            "size": 16,
+            "zoom": 1,
+            "cropX": 50,
+            "cropY": 50,
+            "rotate": 0,
+            "z": 6,
+            "text": ""
+          },
+          {
+            "id": "n1788430346814",
+            "type": "spotify",
+            "x": 50.84987331081081,
+            "y": 97,
+            "width": 94,
+            "height": 168,
+            "size": 12,
+            "rotate": 0,
+            "z": 7,
+            "url": "https://open.spotify.com/track/5XFyFFed9A82EVMyYHn6l8?si=4b435e7735a24ca2"
+          }
+        ],
+        "recording": null,
+        "spotify": "https://open.spotify.com/track/5XFyFFed9A82EVMyYHn6l8?si=4b435e7735a24ca2",
+        "passwordEnabled": false,
+        "passwordHash": ""
+      },
+      "status": "ready",
+      "createdAt": "2026-09-03T10:13:37.575Z",
+      "updatedAt": "2026-09-03T10:16:13.504Z"
+    }
+  ],
+  "orders": [
+    {
+      "id": 1,
+      "code": "FR000001",
+      "userId": 1788430225218,
+      "designId": 1788430417570,
+      "items": [
+        {
+          "code": "standard",
+          "name": "Framie Standard",
+          "price": 299000,
+          "qty": 1
+        }
+      ],
+      "total": 329000,
+      "coupon": null,
+      "paymentMethod": "cod",
+      "paymentStatus": "pending",
+      "orderStatus": "pending",
+      "shipping": {
+        "name": "Nguyễn Hồ Quỳnh Thư",
+        "phone": "0364539533",
+        "address": "1\n",
+        "payment": "cod"
+      },
+      "createdAt": "2026-09-03T10:13:47.235Z"
+    },
+    {
+      "id": 2,
+      "code": "FR000002",
+      "userId": 1788430225218,
+      "designId": 1788430417570,
+      "items": [
+        {
+          "code": "standard",
+          "name": "Framie Standard",
+          "price": 299000,
+          "qty": 1
+        }
+      ],
+      "total": 329000,
+      "coupon": null,
+      "paymentMethod": "cod",
+      "paymentStatus": "pending",
+      "orderStatus": "pending",
+      "shipping": {
+        "name": "Nguyễn Hồ Quỳnh Thư",
+        "phone": "0364539533",
+        "address": "1",
+        "payment": "cod"
+      },
+      "createdAt": "2026-09-03T10:15:19.884Z"
+    }
+  ],
+  "contacts": [],
+  "scans": [
+    {
+      "id": 1788430584442,
+      "designId": 1788430417570,
+      "at": "2026-09-03T10:16:24.442Z"
+    }
+  ],
+  "posts": [
+    {
+      "id": 1,
+      "slug": "qua-tot-nghiep",
+      "title": "Một món quà để nhớ về ngày mình đã lớn",
+      "category": "Quà tặng",
+      "excerpt": "Giữ một ngày quan trọng lại trong ảnh, lời nhắn và một lần chạm.",
+      "body": "Từ một bức ảnh tốt nghiệp đến lời chúc bằng chính giọng nói của bạn, Framie biến một món quà nhỏ thành một câu chuyện nhiều lớp."
+    },
+    {
+      "id": 2,
+      "slug": "nfc-la-gi",
+      "title": "NFC là gì và vì sao một lần chạm có thể kể cả câu chuyện?",
+      "category": "Công nghệ",
+      "excerpt": "Hiểu NFC theo cách đơn giản và gần gũi.",
+      "body": "NFC là lớp kết nối giúp điện thoại mở một địa chỉ web gắn với sản phẩm mà không cần ứng dụng riêng. Người nhận chỉ cần đưa điện thoại lại gần vùng NFC để mở trang ký ức."
+    },
+    {
+      "id": 3,
+      "slug": "y-tuong-qua-tang",
+      "title": "7 ý tưởng Framie cho những người bạn yêu quý",
+      "category": "Cảm hứng",
+      "excerpt": "Sinh nhật, tốt nghiệp, yêu xa, gia đình và những ngày rất riêng.",
+      "body": "Hãy bắt đầu từ một khoảnh khắc, một câu nói hoặc một kỷ niệm. Sau đó xây trải nghiệm quanh điều đó bằng ảnh, video, âm thanh và lời nhắn."
+    },
+    {
+      "id": 4,
+      "slug": "thiet-ke-mot-framie",
+      "title": "Bắt đầu thiết kế Framie từ đâu?",
+      "category": "Cẩm nang",
+      "excerpt": "Một checklist nhỏ để món quà trông đẹp và kể đúng câu chuyện.",
+      "body": "Chọn ảnh chính trước, rồi thêm một câu thật ngắn. Với NFC, hãy dùng giọng nói hoặc video cho những điều khó nói bằng chữ."
+    },
+    {
+      "id": 5,
+      "slug": "qua-tang-cam-xuc",
+      "title": "Vì sao những món quà có câu chuyện thường được nhớ lâu hơn?",
+      "category": "Lifestyle",
+      "excerpt": "Không cần cầu kỳ, chỉ cần đủ riêng tư và đúng người.",
+      "body": "Giá trị của món quà không chỉ nằm ở vật thể. Một lớp ký ức số giúp người nhận quay lại khoảnh khắc ấy nhiều lần, theo cách nhẹ nhàng."
+    }
+  ]
+}

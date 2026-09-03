@@ -1,0 +1,13 @@
+services:
+  - type: web
+    name: framie-api
+    runtime: node
+    buildCommand: "npm install"
+    startCommand: "npm start"
+    envVars:
+      - key: NODE_VERSION
+        value: "20"
+      - key: JWT_SECRET
+        generateValue: true
+      - key: NFC_ENCRYPTION_SECRET
+        generateValue: true
