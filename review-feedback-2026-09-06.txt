@@ -1,0 +1,67 @@
+
+===========================================================
+A. LỖI CẦN SỬA — ƯU TIÊN CAO (đúng với phản ánh "UI bể màn hình")
+===========================================================
+
+1) Trang chủ vỡ layout / tràn ngang trên điện thoại
+   - Mô tả: Ở màn hình điện thoại (375px), trang chủ bị tràn ngang khoảng 340px (trang thực chất rộng ~715px thay vì 375px) -> xuất hiện thanh cuộn ngang, bố cục bị lệch/bể như thầy đã phản ánh.
+   - Nguyên nhân đã xác định: phần tử ảnh điện thoại minh hoạ trong khối Hero (class `.hero-phone`) bị gán cứng
+       transform: translate(375px, -105px) scale(0.72) rotate(5deg) !important;
+     (file styles.css, dòng ~82-85). Vì có "!important" và giá trị dịch chuyển ngang cố định 375px, các media-query cho mobile (max-width:780px và 460px) chỉnh lại width/height/right cho hợp điện thoại nhưng KHÔNG override lại transform này, nên trên màn hình hẹp phần tử bị đẩy hẳn ra ngoài mép phải màn hình, kéo cả trang bị cuộn ngang.
+   - Ảnh hưởng: chỉ xảy ra ở màn hình hẹp (điện thoại thật, ~375-430px). Ở tablet (768px) và desktop thì không bị (đã kiểm chứng, không tràn).
+2) Chữ tiếng Việt có dấu bị "vỡ dấu" ở hầu hết các tiêu đề lớn
+   - Mô tả: Các từ có nguyên âm ghép dấu mũ + dấu thanh (ế, ề, ể, ễ, ệ / ắ, ằ, ẳ, ẵ, ặ / ấ, ầ, ẩ, ẫ, ậ / ồ, ổ, ỗ, ộ...) hiển thị SAI, dấu bị tách rời khỏi chữ cái. Ví dụ thực tế bắt được:
+       "Biến ý tưởng" -> hiện thành "Biế´n ý tưởng"
+       "một thế giới riêng" -> hiện thành "một thế´ giới riêng"
+       "không chỉ để ngắm" -> hiện thành "không chỉ để ngắ´m"
+       "một lần chạm" -> hiện thành "một lầ`n chạm"
+       "những điều bạn đã chọn" -> hiện thành "Những điê`u bạn đã chọn"
+       "trang ký ức không tồn tại" -> hiện thành "...không tô`n tại"
+   - Nguyên nhân: font tiêu đề "Playfair Display" (tải qua Google Fonts, dùng cho gần như mọi h1/h2 toàn site qua biến --serif/--font-serif) không có đủ bộ ký tự dấu tiếng Việt cho các tổ hợp nguyên âm mũ + thanh điệu này. Trình duyệt phải lấy tạm dấu từ font khác để "chắp" vào, gây lệch/tách hình, không dính liền chữ cái.
+   - Mức độ ảnh hưởng: RẤT RỘNG — xuất hiện ở tiêu đề Trang chủ, Giỏ hàng, Trang NFC công khai, Trạm thiết lập, v.v. (bất kỳ đâu dùng font Playfair Display cho tiếng Việt có dấu mũ+thanh). Đây nhiều khả năng là điều khiến giao diện "trông lỗi/thô" nhất khi thầy xem qua.
+
+3) Bước "Preview & đặt hàng" (bước 6/6): chữ loại khung + kích thước bị dính liền, không có khoảng cách
+   - Mô tả: Ngay dưới khung xem trước, dòng "Khung đứng" và "13 x 18 cm" hiển thị dính liền thành "Khung đứng13 x 18 cm", không có dấu cách/khung viền như các badge khác trên trang (so sánh với khu vực preview phía trên đó có style dạng "Đứng · 13 x 18 cm" rất gọn).
+   - Nguyên nhân: đoạn mã dùng class `.review-meta` nhưng trong file styles.css KHÔNG có định nghĩa CSS nào cho class này (bị thiếu/sót khi code), nên hai <span> không có flex/gap/padding gì cả.
+4) Thanh chọn loại nội dung NFC bị cắt mép trên điện thoại
+   - Mô tả: Ở bước "Custom nội dung NFC", thanh nút chọn loại (Văn bản / Hình ảnh / Âm thanh / Sticker / Spotify) cuộn ngang được, nhưng nút cuối cùng ("Sticker") bị cắt sát mép phải màn hình, không có khoảng đệm, khiến cả trang bị dư ra khoảng 8px cuộn ngang không cần thiết.
+
+===========================================================
+B. CẦN THẢO LUẬN / XÁC NHẬN LẠI (chưa chắc là lỗi — là quyết định thiết kế)
+===========================================================
+
+5) Bắt buộc đăng nhập trước khi vào bước "Chọn khung/Customize"
+   - Hiện tại: vào thẳng link "Trạm thiết lập" (/#/setup) khi CHƯA đăng nhập sẽ tự động chuyển sang trang Đăng nhập, chưa cho xem/thử thiết kế gì cả.
+   - Câu hỏi cần thầy/khách xác nhận: có muốn cho khách xem trước / tự do thiết kế thử (giống nhiều web thương mại điện tử khác), chỉ bắt đăng nhập khi tới bước Giỏ hàng/Checkout để giảm rào cản rớt khách? Hay muốn giữ nguyên (đăng nhập ngay từ đầu để gắn thiết kế với tài khoản)? Nếu là chủ đích thì không cần sửa.
+
+6) Popup "Chính sách bảo mật" hiện lại mỗi lần bấm Tiếp tục ở bước Chọn khung
+   - Hiện tại: dù đã bấm "Đồng ý & tiếp tục" một lần, nếu quay lại bước Chọn khung rồi bấm Tiếp tục lần nữa, popup chính sách vẫn hiện lại để xác nhận lại từ đầu.
+   - Cần xác nhận: đây có phải hành vi mong muốn (an toàn pháp lý, luôn xác nhận lại) hay nên chỉ hỏi 1 lần cho mỗi thiết kế để đỡ gây khó chịu khi khách chỉnh sửa qua lại.
+
+7) Hai lựa chọn font chữ trong trình soạn nội dung NFC không hoạt động
+   - Mô tả: khi chọn font cho khối văn bản trong nội dung NFC, danh sách có "Cormorant Garamond" và "DM Sans", nhưng 2 font này CHƯA được nhúng vào trang (file CSS chỉ tải Manrope + Playfair Display từ Google Fonts). Vì vậy khi khách chọn 2 font này, chữ hiển thị không đổi gì cả trên trang kỷ niệm cuối cùng — gây hiểu lầm là tính năng bị lỗi.
+   - Đề xuất: nhúng thêm 2 font này vào Google Fonts import, hoặc tạm thời bỏ 2 lựa chọn chưa hoạt động ra khỏi danh sách.
+
+
+===========================================================
+C.  CHÚ KỸ THUẬT KHÁC (mức thấp, tham khảo thêm — không gấp)
+===========================================================
+
+8) File styles.css có 2 bộ biến số trùng lặp
+   - Có 2 khối :root khai báo biến kiểu chữ/màu khác nhau: bộ đầu file (--serif, --sans, --primary: #E6A1A5) và bộ khai báo lại ở giữa file (--font-serif, --font-sans, --primary: #CD747A). Hiện tại không gây lỗi hiển thị vì trình duyệt lấy giá trị khai báo sau cùng, nhưng nên gộp lại thành 1 bộ biến duy nhất để dễ bảo trì, tránh nhầm lẫn về sau khi có nhiều đợt chỉnh sửa tiếp theo.
+
+
+===========================================================
+D. ĐÃ KIỂM TRA VÀ HOẠT ĐỘNG TỐT (không cần sửa)
+===========================================================
+
+- Toàn bộ luồng chính chạy thông suốt đúng như mô tả yêu cầu ban đầu: Trang chủ -> Chọn khung ảnh -> Customize (upload ảnh, nhập lời nhắn, chọn mẫu) -> Preview -> Giỏ hàng -> Checkout -> "Đặt hàng thành công" -> tạo NFC/trang kỷ niệm -> chạm NFC (giả lập bằng link công khai) -> Trang ảnh + lời nhắn hiển thị đúng nội dung đã tạo, kể cả tính năng khoá mật khẩu trang NFC. Không phát sinh lỗi console/JS trong suốt quá trình test.
+- Các trang tĩnh (Về Framie, Blog, Cửa hàng, Liên hệ, Chính sách, Đăng nhập/Đăng ký) không bị vỡ layout hay tràn màn hình ở cả 3 kích thước đã test.
+- Giỏ hàng, Checkout, Dashboard, trang NFC công khai: bố cục mobile gọn gàng, không tràn ngang, không chồng chéo nội dung.
+
+
+===========================================================
+Ghi chú thêm
+===========================================================
+- Đã kiểm tra kỹ để phân biệt lỗi thật với lỗi ảo do công cụ chụp màn hình toàn trang (một số vị trí thanh điều hướng dính "sticky" trông như bị đè lên nội dung khi chụp full-page, nhưng khi cuộn trang thật thì hiển thị đúng, không tính là lỗi — đã loại các trường hợp này ra khỏi danh sách trên).
+- Còn 2 tài khoản/1 thiết kế/2 đơn hàng mẫu sẵn có trong dữ liệu demo cục bộ (data/db.json) — không liên quan tới lỗi giao diện, chỉ là dữ liệu thử nghiệm cũ.

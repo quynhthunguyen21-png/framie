@@ -1,18 +1,20 @@
 # framie — Full-stack NFC custom frame web app
 
-Framie is a dependency-light full-stack web app for custom NFC picture frames. It includes a public storefront, authentication, dashboard, cart, checkout, design editor, NFC content editor, public NFC pages, scan analytics, blog CMS and contact flow.
+Framie is a full-stack web app for custom NFC picture frames. It includes a public storefront, authentication, dashboard, cart, checkout, design editor, NFC content editor, public NFC pages, scan analytics, blog CMS and contact flow.
+
+Data lives in Postgres (Supabase) and uploaded photos/videos/audio are stored in Supabase Storage — both work locally and on Vercel (see **Backend** below).
 
 ## Run local
 
-Requirements: Node.js 18+.
+Requirements: Node.js 20+, a Postgres database.
 
-```bash
-npm run dev
-```
+1. `npm install`
+2. Copy `.env.example` to `.env` and fill in `DATABASE_URL` (Supabase → Project Settings → Database → Connection string, transaction pooler / port 6543). Everything else is optional for local dev.
+3. `npm run dev`
 
 Open: http://localhost:5173
 
-No package install is required for the local demo because the server uses only Node built-ins. `npm install` is only useful for a production host if required by the platform.
+The first request after starting the server (or after a fresh serverless cold start on Vercel) takes a couple of seconds while it connects to Postgres and creates tables if they don't exist yet — this is normal, not a bug.
 
 ## Main routes
 
@@ -42,7 +44,7 @@ No package install is required for the local demo because the server uses only N
 - First uploaded image automatically becomes a full-frame background layer.
 - NFC editor: ảnh, video, âm thanh, ghi âm, Spotify, văn bản, sticker; kéo thả, đổi vị trí X/Y, zoom, crop, xoay, đổi rộng/cao và layer order.
 - Real microphone recording through `MediaRecorder` + server upload.
-- File uploads persisted in local `storage/` and served by the Node backend.
+- File uploads persisted in Supabase Storage (local `storage/` folder as a local-dev fallback).
 - Privacy gate before content editing.
 - Final review mirrors the custom frame and NFC preview.
 - Cart with quantity controls, coupon codes and shipping estimate.
@@ -61,29 +63,36 @@ No package install is required for the local demo because the server uses only N
 
 ## Backend
 
-The local server uses a JSON database at `data/db.json` and local file storage at `storage/`. This keeps the demo easy to run without Docker or external services.
+All data (users, designs, orders, scans, blog posts, contact messages) lives in Postgres, accessed through `lib/db.js` / `lib/api.js`. Uploaded photos/videos/audio go to **Supabase Storage** when configured (required on Vercel, since serverless functions cannot write to local disk); without Storage env vars, uploads fall back to the local `storage/` folder for local dev only.
 
-For production, replace the JSON repository and file storage with PostgreSQL/Supabase/another persistent database + object storage. Replace the demo auth token with a production auth provider or a hardened JWT/session implementation.
+Two entry points share the same `lib/api.js` request handler:
+- `server.js` — a plain Node server for local dev (`npm run dev`), also serves the static frontend and (in local-storage fallback mode) `/storage/*`.
+- `api/[...path].js` — a Vercel serverless function that Vercel routes every `/api/*` request to.
 
-## Separate frontend + backend deployment
+### Env vars
 
-`public/config.js` contains:
+See `.env.example`. Required:
+- `DATABASE_URL` — Supabase Postgres connection string (transaction pooler, port 6543).
+- `JWT_SECRET`, `NFC_ENCRYPTION_SECRET` — any long random strings in production.
 
-```js
-window.FRAME_API = '/api';
-```
+Required only for Vercel (uploads need somewhere writable to go):
+- `SUPABASE_URL`, `SUPABASE_SERVICE_ROLE_KEY` — Project Settings → API. Use the **service role** key, not `anon`, since uploads happen server-side and must bypass Storage RLS policies.
+- `SUPABASE_STORAGE_BUCKET` — a **public** bucket (default name `framie-uploads`), created once in Supabase → Storage.
 
-For a static Netlify frontend with a separate Node backend, change it to your API origin, for example:
+## Deploying to Vercel
 
-```js
-window.FRAME_API = 'https://your-backend.example.com/api';
-```
+1. Create the Supabase Storage bucket above (Storage → New bucket → public).
+2. `vercel link` this project, then set the env vars above in the Vercel dashboard (Project → Settings → Environment Variables) for Production (and Preview, if used).
+3. `vercel.json` sets `outputDirectory: "public"` so the static frontend is served from `/`, while anything under `api/` is auto-detected as serverless functions — no other config is needed.
+4. Deploy (`vercel --prod` or push to the connected Git branch).
 
-`netlify.toml` is included for SPA routing. `render.yaml` is included as a starting point for a Node deployment.
+## Other deployment targets
+
+`public/config.js` contains `window.FRAME_API = '/api'`. For a separate frontend/backend split (e.g. a static host in front of a Node server elsewhere), change it to your API origin, e.g. `window.FRAME_API = 'https://your-backend.example.com/api'`. `netlify.toml` is included for SPA routing if you go that route; `server.js` can also run as a normal long-lived Node process on any host that supports one (Render, Railway, a VPS, …) — same `lib/api.js`, same Postgres/Storage setup as above.
 
 ## Important production notes
 
-The app is functional as a prototype/full-stack local demo. Real payment gateways, Google OAuth credentials, production media optimization, email delivery, database migrations, rate limiting, CSRF protection, secure session rotation, image/video transcoding and formal privacy/retention policies still need production hardening before public launch.
+The app now runs on real, persistent infrastructure (Postgres + Supabase Storage) suitable for Vercel, but is still a prototype in a few ways: passwords are hashed with SHA-256 rather than bcrypt/argon2, auth tokens are a hand-rolled signed payload rather than a vetted JWT library, and there's no rate limiting, CSRF protection, formal DB migration tooling, or email delivery. Real payment gateways, Google OAuth credentials, production media optimization/transcoding and formal privacy/retention policies also still need work before public launch.
 
 ## vNext update
 - Canva-style editor refinements: drag positioning, zoom, crop X/Y, rotation, width/height, centering and layer controls.

@@ -1,1 +1,1 @@
-{"name":"framie-final","version":"1.0.0","private":true,"type":"module","scripts":{"dev":"node server.js","start":"node server.js"}}
+{"name":"framie-final","version":"1.0.0","private":true,"type":"module","scripts":{"dev":"node --env-file-if-exists=.env server.js","start":"node server.js"},"dependencies":{"pg":"^8.23.0"}}

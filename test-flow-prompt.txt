@@ -1,0 +1,89 @@
+Bạn hãy test toàn bộ luồng người dùng của web app Framie (project tại thư mục hiện tại: framie-fullstack-updated). Đây là app đặt khung ảnh in kèm NFC, khi khách chạm điện thoại vào khung sẽ mở ra 1 trang ảnh + lời nhắn kỷ niệm.
+
+MỤC TIÊU: kiểm tra xem toàn bộ luồng dưới đây đã HOÀN THIỆN chưa — chạy thực tế trên trình duyệt (không chỉ đọc code), thử từng bước lớn rồi đi sâu vào từng thao tác nhỏ bên trong, báo cáo lại chỗ nào lỗi/thiếu/UI vỡ.
+
+LUỒNG TỔNG QUAN CẦN TEST:
+Trang chủ
+  -> Chọn khung ảnh
+  -> Customize (Upload ảnh / Nhập lời nhắn / Chọn mẫu)
+  -> Preview
+  -> Giỏ hàng (mô phỏng)
+  -> Checkout (mô phỏng)
+  -> "Đặt hàng thành công"
+  -> Tạo NFC / trang kỷ niệm
+  -> Chạm NFC (giả lập bằng cách mở link công khai)
+  -> Trang ảnh + lời nhắn
+
+CÁCH CHẠY:
+- `npm run dev` (dùng Node built-in, không cần npm install), mở http://localhost:5173
+- Muốn vào được bước Customize bắt buộc phải có tài khoản: vào /#/register tạo 1 tài khoản test trước, hoặc gọi thẳng API POST /api/auth/register.
+
+TEST TỪ LỚN -> NHỎ, theo đúng thứ tự sau, mỗi bước cần bấm thật/nhập thật (không chỉ nhìn qua):
+
+1. TRANG CHỦ
+   - Mở trang chủ, kiểm tra không vỡ layout, không tràn ngang ở cả 3 kích thước màn hình: điện thoại (375px), tablet (768px), desktop (1440px).
+   - Bấm nút "Bắt đầu ngay" / "Thiết lập ngay" -> phải dẫn tới Trạm thiết lập.
+
+2. CHỌN GÓI (bước 1/6 trong Trạm thiết lập)
+   - Có đủ 3 gói Basic/Memory/Standard, giá đúng (99.000đ / 199.000đ / 299.000đ).
+   - Chọn 1 gói, bấm "Tiếp tục" phải chuyển sang bước Chọn khung.
+
+3. CHỌN KHUNG (bước 2/6)
+   - Test đủ: hướng khung (đứng/ngang), 6 màu khung, 4 kích thước.
+   - Bấm "Tiếp tục" -> phải hiện popup Chính sách bảo mật, 2 checkbox phải tick đủ mới bấm "Đồng ý & tiếp tục" được (thử bấm khi chưa tick đủ để chắc nút bị disable đúng).
+
+4. CUSTOM KHUNG VẬT LÝ (bước 3/6) — TEST KỸ TỪNG THAO TÁC NHỎ:
+   - Upload ảnh: thử upload 1 ảnh thật (jpg/png), kiểm tra ảnh đầu tiên có tự động thành layer nền full khung không (theo mô tả tính năng).
+   - Nếu gói cho phép nhiều ảnh: thử upload thêm ảnh thứ 2.
+   - Thêm text: nhập 1 đoạn "lời nhắn", đổi font, đổi cỡ chữ.
+   - Thêm sticker: mở thư viện sticker, chọn 1 cái.
+   - Với từng layer (ảnh/text/sticker): thử kéo di chuyển, resize, xoay, đổi thứ tự lớp (lên lớp/xuống lớp), xoá layer.
+   - Kiểm tra khung xem trước (Live Preview) có cập nhật đúng theo thao tác không.
+
+5. CUSTOM NỘI DUNG NFC (bước 4/6) — TEST KỸ TỪNG LOẠI NỘI DUNG:
+   - Văn bản: thêm 1 khối text, nhập nội dung "lời nhắn" cho trang kỷ niệm.
+   - Hình ảnh: upload 1 ảnh, thử zoom/crop X/Y.
+   - Âm thanh: thử ghi âm trực tiếp (microphone) HOẶC upload file audio có sẵn.
+   - Sticker: thêm 1 sticker.
+   - Spotify: dán 1 link open.spotify.com bất kỳ, kiểm tra có nhúng đúng player không.
+   - Với mỗi layer: kéo thả đổi vị trí X/Y, đổi rộng/cao, xoay, đổi layer order — như bước 4 nhưng cho khu vực NFC.
+   - Kiểm tra khung điện thoại preview bên phải có cập nhật real-time không.
+
+6. BẢO MẬT NFC (bước 5/6)
+   - Thử bật mật khẩu bảo vệ trang NFC, đặt mật khẩu (tối thiểu 4 ký tự) — thử đặt mật khẩu <4 ký tự để chắc bị chặn đúng.
+   - Thử để KHÔNG đặt mật khẩu (bỏ qua) xem có cho qua bước tiếp không.
+
+7. PREVIEW & ĐẶT HÀNG (bước 6/6)
+   - Kiểm tra phần tổng quan hiển thị đúng: gói đã chọn, khung, kích thước, số lớp nội dung NFC, trạng thái mật khẩu.
+   - Bấm "Đặt hàng thiết kế này" -> phải chuyển sang Checkout kèm đúng gói trong giỏ.
+
+8. GIỎ HÀNG (test riêng, có thể vào thẳng /#/cart)
+   - Thêm/bớt số lượng, xoá sản phẩm.
+   - Thử nhập mã giảm giá: FRAMIE10, MEMORY20, WELCOME50 — kiểm tra % giảm đúng.
+   - Kiểm tra phí vận chuyển: miễn phí khi đơn >=300.000đ, ngược lại tính phí đúng.
+
+9. CHECKOUT
+   - Điền đủ form (tên/sđt/địa chỉ).
+   - Thử cả 2 phương thức thanh toán: COD và Chuyển khoản.
+   - Bấm "Tạo đơn hàng" -> phải hiện trang "Đơn hàng đã tạo thành công" kèm mã đơn hàng.
+   - Bấm nút "Về Dashboard" trên trang thành công -> phải vào đúng Dashboard.
+
+10. DASHBOARD — TẠO NFC / TRANG KỶ NIỆM
+    - Tab "Tổng quan": số liệu thiết kế/đơn hàng/lượt quét NFC có khớp dữ liệu vừa tạo không.
+    - Tab thiết kế: mở lại thiết kế vừa tạo, xem preview trong modal.
+    - Thử copy link trang NFC công khai.
+    - Thử đổi/tắt mật khẩu NFC ngay trong Dashboard (không qua lại luồng thiết lập).
+    - Tab đơn hàng: đơn vừa tạo có hiện đúng không.
+    - Tab tài khoản: thử đổi thông tin cá nhân, đổi mật khẩu.
+
+11. CHẠM NFC (giả lập) -> TRANG ẢNH + LỜI NHẮN
+    - Mở đúng link công khai /#/m/:id vừa copy được ở bước 10 (mở ở tab ẩn danh / chưa đăng nhập, để test đúng như khách nhận quà).
+    - Nếu có đặt mật khẩu: thử nhập SAI mật khẩu trước (phải báo lỗi, không lộ nội dung), sau đó nhập ĐÚNG mật khẩu -> phải mở đúng nội dung đã tạo (ảnh, lời nhắn, âm thanh/sticker/spotify nếu có).
+    - Kiểm tra lượt quét NFC có được ghi nhận (tăng số liệu bên Dashboard) sau khi mở trang thành công không.
+    - Test trên mobile width (375px) vì đây là trải nghiệm khách sẽ dùng trên điện thoại thật.
+
+YÊU CẦU BÁO CÁO:
+- Với MỖI bước ở trên, ghi rõ: Pass / Fail / Chưa hoàn thiện.
+- Nếu Fail hoặc có bug: mô tả cụ thể lỗi, bước tái hiện, và chụp màn hình minh hoạ nếu có thể.
+- Không tự sửa code trong lúc test — chỉ test và báo cáo, để việc review/feedback và việc sửa tách biệt.
+- Tổng hợp lại thành 1 danh sách rõ ràng ở cuối: những gì đã hoàn thiện, những gì còn thiếu/lỗi, ưu tiên theo mức độ ảnh hưởng tới trải nghiệm khách hàng.

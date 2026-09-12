@@ -1,0 +1,51 @@
+FRAMIE — TÓM TẮT ĐÃ SỬA — 07/09/2026
+(đối chiếu với file review-feedback-2026-09-06.txt)
+Toàn bộ thay đổi nằm trong 1 file: public/styles.css. Đã build/chạy lại và test trực tiếp trên trình duyệt (375px / 768px / 1440px) sau mỗi bước sửa, không chỉ sửa theo lý thuyết.
+
+ĐÃ SỬA (mục A trong file review)
+--------------------------------
+
+1) Trang chủ tràn ngang trên điện thoại — ĐÃ SỬA, thực ra có 2 lỗi cộng dồn:
+   a. Class dùng chung `.device-phone` (390x730, dùng cho khung điện thoại ở trình soạn NFC) vô tình đè luôn kích thước + đổi cả position:absolute -> relative của `.hero-phone` (ảnh điện thoại trang trí ở trang chủ), vì 2 class này đứng cùng 1 thẻ và CSS của `.device-phone` viết SAU nên thắng thế theo thứ tự xếp chồng (dù đã có media-query riêng cho mobile, cũng bị đè theo cách tương tự).
+   b. Transform "translate(375px,...) !important" được tính riêng cho layout desktop, không có bản dành cho mobile.
+   -> Đã thêm 1 khối CSS riêng cho mobile (cuối file), ép lại đúng position/kích thước/transform cho `.hero-phone`, không đụng gì tới desktop/tablet.
+   Kết quả: 0px tràn ngang ở mọi trang, mọi kích thước màn hình đã test.
+
+2) Vỡ dấu tiếng Việt ở tiêu đề — ĐÃ SỬA, và hoá ra nguyên nhân SÂU HƠN dự đoán ban đầu:
+   Không phải do font Playfair Display thiếu dấu — mà do dòng @import Google Fonts ở đầu file bị SAI CÚ PHÁP (thiếu cặp giá trị cho trục "ital"), khiến Google trả về trang lỗi thay vì file CSS thật, và trình duyệt CHẶN HẲN không cho dùng (lỗi ERR_BLOCKED_BY_ORB). Hậu quả: Playfair Display + Manrope CHƯA TỪNG được tải thành công ở bất kỳ đâu, kể cả trên máy thật — toàn bộ site luôn hiển thị bằng font dự phòng của máy, và chính font dự phòng đó thiếu 1 số dấu tiếng Việt gây vỡ hình.
+   -> Đã sửa lại đúng cú pháp URL. Xác nhận: Google đã xác nhận Playfair Display CÓ hỗ trợ đầy đủ bộ ký tự tiếng Việt (subset "vietnamese"), nên chỉ cần tải đúng là hết lỗi, không cần đổi font.
+   Kết quả: toàn bộ tiêu đề tiếng Việt (Trang chủ, Trạm thiết lập, Giỏ hàng, trang NFC...) hiển thị đúng dấu, đồng thời web giờ mới thực sự hiển thị đúng font thương hiệu (Playfair Display/Manrope) thay vì font mặc định của máy như trước giờ.
+
+3) Chữ "Khung đứng" + "13 x 18 cm" dính liền ở bước Preview — ĐÃ SỬA
+   Đã bổ sung CSS cho class `.review-meta` (dùng lại đúng style badge có sẵn của `.frame-summary`). Giờ hiển thị thành 2 khung riêng biệt, gọn gàng như phần preview phía trên.
+
+4) Thanh chọn loại nội dung NFC bị cắt mép trên mobile — ĐÃ SỬA, nguyên nhân thật ra không phải do thiếu đệm phải mà do lỗi CSS Grid sâu hơn:
+   Cột grid chứa toàn bộ khu vực soạn nội dung (`.editor-layout`/`.nfc-layout`) ở breakpoint dành cho màn ~780-1050px bị đặt SAU breakpoint mobile (~≤780px) trong file, nên công thức cột 3 phần (64px + phần giữa + 290px, tổng tối thiểu ~354px + khoảng cách) bị áp nhầm cho cả màn hình điện thoại 375px, khiến cả khối bị đẩy rộng ra và tràn mép — không chỉ ảnh hưởng riêng thanh chọn loại nội dung mà toàn bộ khu vực soạn NFC/khung vật lý trên mobile.
+   -> Đã sửa để đúng khối 1 cột (`minmax(0,1fr)`) luôn thắng ở mobile như thiết kế ban đầu.
+   Kết quả: 0px tràn ngang ở bước Custom khung vật lý và Custom nội dung NFC, cả mobile lẫn tablet.
+
+ĐÃ SỬA THÊM (mục B.7 — không nằm trong nhóm ưu tiên cao nhưng dễ làm luôn)
+--------------------------------------------------------------------------
+
+7) 2 font "Cormorant Garamond" và "DM Sans" không hoạt động trong trình soạn NFC — ĐÃ SỬA
+   Đã nhúng thêm 2 font này vào cùng dòng Google Fonts import. Đã xác nhận cả 4 font (Manrope, Playfair Display, Cormorant Garamond, DM Sans) tải thành công.
+
+ĐÃ DỌN NHẸ (mục C.8)
+---------------------
+
+8) Xoá 1 khối `:root{--primary:#CD747A}` bị lặp hoàn toàn trùng với khai báo khác trong file (không đổi giá trị/hành vi gì). Phần còn lại (2 bộ biến --serif/--sans và --font-serif/--font-sans song song) CHƯA gộp — vì việc gộp đòi hỏi rà lại toàn bộ nơi dùng biến trong file CSS khá rối, rủi ro gây lỗi mới trong khi lợi ích chỉ là dọn code chứ không sửa lỗi hiển thị nào, nên tạm để nguyên. Nếu muốn dọn kỹ mục này báo tôi làm riêng, tách khỏi đợt sửa lỗi hiển thị lần này.
+
+CHƯA ĐỘNG TỚI (mục B.5 và B.6) — theo lựa chọn giữ nguyên
+-----------------------------------------------------------
+
+5) Bắt đăng nhập trước khi vào bước Chọn khung/Customize — giữ nguyên như hiện tại.
+6) Popup Chính sách bảo mật hiện lại mỗi lần bấm Tiếp tục ở bước Chọn khung — giữ nguyên như hiện tại.
+(Cả 2 mục này chờ ý kiến thầy/khách trước khi đổi, theo đúng lựa chọn đã chốt.)
+
+KIỂM TRA SAU KHI SỬA
+----------------------
+- Chạy lại toàn bộ luồng chính (Trang chủ -> Chọn gói -> Chọn khung -> Chính sách bảo mật -> Custom khung vật lý -> Custom nội dung NFC -> Bảo mật NFC -> Preview & đặt hàng -> Giỏ hàng -> Checkout -> Dashboard -> trang NFC công khai) ở cả 3 kích thước màn hình: 0 lỗi tràn ngang, không phát sinh lỗi console mới.
+- Các trang tĩnh (Về Framie, Blog, Cửa hàng, Liên hệ, Chính sách): 0 lỗi tràn ngang.
+- File dữ liệu demo cục bộ (data/db.json) đã được khôi phục nguyên trạng — không giữ lại tài khoản/dữ liệu test đã tạo trong lúc kiểm tra.
+
+Chỉ có 1 file thay đổi: public/styles.css (chưa commit git, đang chờ anh xem qua trước).
