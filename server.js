@@ -20,7 +20,18 @@ function staticFile(req, res) {
   }
   let reqPath = decodeURIComponent(u.pathname); if (reqPath === '/' || !reqPath.includes('.')) reqPath = '/index.html';
   const f = path.join(pub, reqPath); if (!f.startsWith(pub) || !fs.existsSync(f) || fs.statSync(f).isDirectory()) return json(res, 404, { message: 'Not found' });
-  const mime = { '.html': 'text/html; charset=utf-8', '.js': 'text/javascript; charset=utf-8', '.css': 'text/css; charset=utf-8', '.png': 'image/png', '.jpg': 'image/jpeg', '.svg': 'image/svg+xml', '.mov': 'video/quicktime' }[path.extname(f).toLowerCase()] || 'application/octet-stream';
+  const mime = {
+    '.html': 'text/html; charset=utf-8',
+    '.js': 'text/javascript; charset=utf-8',
+    '.css': 'text/css; charset=utf-8',
+    '.png': 'image/png',
+    '.jpg': 'image/jpeg',
+    '.jpeg': 'image/jpeg',
+    '.svg': 'image/svg+xml',
+    '.mp4': 'video/mp4',
+    '.mov': 'video/quicktime',
+    '.webm': 'video/webm'
+  }[path.extname(f).toLowerCase()] || 'application/octet-stream';
   res.writeHead(200, { 'Content-Type': mime }); fs.createReadStream(f).pipe(res);
 }
 const json = (res, code, obj) => { res.writeHead(code, { 'Content-Type': 'application/json; charset=utf-8' }); res.end(JSON.stringify(obj)); };
