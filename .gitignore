@@ -5,3 +5,10 @@ storage/*
 !storage/.gitkeep
 
 .vercel
+.env*
+*.rar
+*.zip
+*.log
+
+public/video-demo.mov
+public/Chỉnh sửa lần 2/Video demo.mov

@@ -15,12 +15,12 @@ function staticFile(req, res) {
     const requested = decodeURIComponent(u.pathname.slice(9));
     const filePath = readLocalFile(requested);
     if (!filePath) return json(res, 404, { message: 'Not found' });
-    const mime = { '.png': 'image/png', '.jpg': 'image/jpeg', '.jpeg': 'image/jpeg', '.webp': 'image/webp', '.webm': 'video/webm', '.mp4': 'video/mp4', '.mp3': 'audio/mpeg', '.wav': 'audio/wav' }[path.extname(filePath).toLowerCase()] || 'application/octet-stream';
+    const mime = { '.png': 'image/png', '.jpg': 'image/jpeg', '.jpeg': 'image/jpeg', '.webp': 'image/webp', '.webm': 'video/webm', '.mp4': 'video/mp4', '.mov': 'video/quicktime', '.mp3': 'audio/mpeg', '.wav': 'audio/wav' }[path.extname(filePath).toLowerCase()] || 'application/octet-stream';
     res.writeHead(200, { 'Content-Type': mime, 'Cache-Control': 'public, max-age=31536000, immutable' }); return fs.createReadStream(filePath).pipe(res);
   }
   let reqPath = decodeURIComponent(u.pathname); if (reqPath === '/' || !reqPath.includes('.')) reqPath = '/index.html';
   const f = path.join(pub, reqPath); if (!f.startsWith(pub) || !fs.existsSync(f) || fs.statSync(f).isDirectory()) return json(res, 404, { message: 'Not found' });
-  const mime = { '.html': 'text/html; charset=utf-8', '.js': 'text/javascript; charset=utf-8', '.css': 'text/css; charset=utf-8', '.png': 'image/png', '.jpg': 'image/jpeg', '.svg': 'image/svg+xml' }[path.extname(f).toLowerCase()] || 'application/octet-stream';
+  const mime = { '.html': 'text/html; charset=utf-8', '.js': 'text/javascript; charset=utf-8', '.css': 'text/css; charset=utf-8', '.png': 'image/png', '.jpg': 'image/jpeg', '.svg': 'image/svg+xml', '.mov': 'video/quicktime' }[path.extname(f).toLowerCase()] || 'application/octet-stream';
   res.writeHead(200, { 'Content-Type': mime }); fs.createReadStream(f).pipe(res);
 }
 const json = (res, code, obj) => { res.writeHead(code, { 'Content-Type': 'application/json; charset=utf-8' }); res.end(JSON.stringify(obj)); };
