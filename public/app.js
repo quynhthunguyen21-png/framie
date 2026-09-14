@@ -543,7 +543,7 @@ async function blog(){
     </div>
     <div id="posts" class="blog-grid-modern">
       ${posts.map(p => `
-        <a class="modern-blog-card" href="#/blog/${p.slug}" data-category="${esc(p.category)}">
+        <a class="modern-blog-card" href="/blog/${p.slug}" data-category="${esc(p.category)}">
           <div class="modern-card-cover">
             <img src="${blogCover(p.id)}" alt="${esc(p.title)}" loading="lazy">
           </div>
@@ -618,7 +618,7 @@ async function blogPost(slug){
     : esc(p.body||'').split(/\n+/).map(x => `<p>${x}</p>`).join('');
 
   shell(`<main class="page narrow post">
-    <a class="text-link back-link" href="#/blog">← Về Blog</a>
+    <a class="text-link back-link" href="/blog">← Về Blog</a>
     <div class="post-hero" style="background-image:url('${p.image || blogCover(p.id)}')">
       <div class="post-hero-scrim">
         <span class="eyebrow">${esc(p.category)}</span>
@@ -640,7 +640,7 @@ async function blogPost(slug){
       <aside class="post-sidebar">
         <h3>Bài viết khác</h3>
         ${related.map(r => `
-          <a class="related-post" href="#/blog/${r.slug}">
+          <a class="related-post" href="/blog/${r.slug}">
             <img src="${blogCover(r.id)}" alt="${esc(r.title)}" loading="lazy">
             <div>
               <small>${esc(r.category)}</small>
@@ -886,7 +886,17 @@ async function renderPublicUnlocked(d){
 async function nfcPublic(id){const r=await fetch(API+'/nfc/'+id);const d=await r.json();if(!r.ok)return shell(`<main class="page narrow"><span class="eyebrow">NFC</span><h1>Trang ký ức không tồn tại</h1><p>${esc(d.message||'Không tìm thấy Framie.')}</p><a class="text-link" href="#/">← Về trang chủ Framie</a></main>`,{plain:true});if(d.protected){shell(`<main class="nfc-lock-page"><div class="nfc-lock-card"><div class="lock-icon">🔒</div><span class="eyebrow">FRAMIE PRIVATE MEMORY</span><h1>Đây là một câu chuyện <em>riêng tư</em></h1><p>Nhập mật khẩu do người tạo Framie cung cấp để mở nội dung kỷ niệm.</p><form id="nfc-unlock-form"><input id="nfc-unlock-password" type="password" placeholder="Mật khẩu" autocomplete="current-password" required><button class="btn primary full">Mở nội dung →</button></form><small id="nfc-unlock-error"></small></div></main>`,{plain:true});$('#nfc-unlock-form').onsubmit=async e=>{e.preventDefault();const password=$('#nfc-unlock-password').value;const rr=await fetch(`${API}/nfc/${id}/unlock`,{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({password})});const data=await rr.json();if(!rr.ok){$('#nfc-unlock-error').textContent=data.message||'Mật khẩu không đúng.';return}renderPublicUnlocked(data)};return}return renderPublicUnlocked(d)}
 function framePreviewFromConfig(config){const c=config||{};return `<div class="public-frame-card"><span class="eyebrow">FRAMIE · BẢN THIẾT KẾ</span><div class="frame-preview ${c.frame||'portrait'} ${c.color||'cream'} public-frame" style="${c.bg?`background:${esc(c.bg)}`:''}">${(c.elements||[]).slice().sort((a,b)=>(a.z||0)-(b.z||0)).map(e=>renderPhysical(e,false)).join('')}<span class="nfc-badge">NFC</span></div><div class="public-frame-meta"><span>${frameLabel(c.frame)}</span><span>${c.size||''}</span></div></div>`}
 
-function parseRoute(){const raw=location.hash.slice(1)||'/';const [p,q='']=raw.split('?');return {p,q:new URLSearchParams(q)}}
+function parseRoute(){
+
+  const raw = location.pathname !== '/'
+    ? location.pathname + location.search
+    : (location.hash.slice(1) || '/');
+
+  const [p,q=''] = raw.split('?');
+
+  return {p:p||'/',q:new URLSearchParams(q)};
+
+}
 async function setup(){refreshAuth();if(!S.user){location.hash='/login';return}const {q}=parseRoute();const id=Number(q.get('design'));if(id&&(!S.loadedDesignId||S.loadedDesignId!==id)){try{const r=await fetch(API+'/designs/'+id,{headers:{Authorization:'Bearer '+S.token}});if(r.ok){const d=await r.json();S.design=d.config||defaultDesign();S.nfc=d.nfc||defaultNfc();if(S.nfc?.elements){const _n1=S.nfc.elements.find(e=>e.id==='n1');if(_n1)_n1.y=8.3;const _n2=S.nfc.elements.find(e=>e.id==='n2');if(_n2)_n2.y=9.43;const _cov=S.nfc.elements.find(e=>e.id==='cover1');if(_cov)_cov.y=4.77;const _allCovs=S.nfc.elements.filter(e=>e.type==='cover');_allCovs.forEach(c=>{if(c.y<15)c.y=4.77});const hasCover=S.nfc.elements.some(e=>e.type==='cover');const hasImg=S.nfc.elements.some(e=>e.type==='image');if(!hasCover&&!hasImg)S.nfc.elements.unshift({id:'cover1',type:'cover',x:50,y:4.77,width:84,height:210,rotate:0,z:1})}S.loadedDesignId=id;S.step=4;persist()}}catch{} }let orders=null;const fetchOrders=async()=>{if(!orders){try{const r=await fetch(API+'/orders',{headers:{Authorization:'Bearer '+S.token}});if(r.ok){const res=await r.json();orders=Array.isArray(res)?res:[]}else{if(r.status===401){signout();location.hash='/login';return []}orders=[]}}catch{orders=[]}}return orders};if(!id&&S.loadedDesignId){const os=await fetchOrders();if(os.some(o=>o.designId===S.loadedDesignId)){S.productPlan=null;resetDesign();S.loadedDesignId=null}}if(S.loadedDesignId){const os=await fetchOrders();S.designHasOrder=os.some(o=>o.designId===S.loadedDesignId)}else{S.designHasOrder=false} renderSetup()}
 function route(){const {p}=parseRoute();if(p==='/')home();else if(p==='/about')about();else if(p==='/blog')blog();else if(p.startsWith('/blog/'))blogPost(p.slice(6));else if(p==='/shop')shop();else if(p==='/templates')templateLibrary();else if(p==='/contact')contact();else if(p==='/policy')policy();else if(p==='/login'||p==='/register'||p==='/forgot')auth();else if(p==='/auth/google/complete')googleAuthComplete();else if(p==='/setup')setup();else if(p==='/dashboard')dashboard();else if(p==='/cart')cart();else if(p==='/checkout')checkout();else if(p.startsWith('/m/'))nfcPublic(p.slice(3));else home()}
 /* Canva/Figma-style keyboard delete: Delete/Backspace removes the currently
