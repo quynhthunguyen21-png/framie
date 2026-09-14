@@ -315,6 +315,7 @@ function md2html(md) {
 
 // List of all .md blog post slugs — add new file here to add new blog post
 const MD_BLOG_SLUGS = [
+  'khung-anh-nfc-la-gi-cach-hoat-dong-va-huong-dan-chon-mua',
   'qua-tang-cam-xuc',
   'thiet-ke-mot-framie',
   'y-tuong-qua-tang',
