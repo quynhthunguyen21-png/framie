@@ -38,7 +38,7 @@ The first request after starting the server (or after a fresh serverless cold st
 - Couple-focused brand positioning, value proposition, mission, vision and core values.
 - Supplied couple photos integrated into Home / About / Shop demo visuals.
 - Responsive desktop / tablet / mobile layouts.
-- Three plans: Basic 99.000đ, Memory 199.000đ, Standard 299.000đ.
+- Three plans: Basic 149.000đ, Memory 249.000đ, Standard 349.000đ.
 - Frame orientation, 6 frame colors and 4 sizes.
 - Physical frame editor: image upload, text, stickers, drag, resize, rotate, crop, zoom, font and layer order.
 - First uploaded image automatically becomes a full-frame background layer.
