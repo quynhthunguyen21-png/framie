@@ -925,9 +925,11 @@ h1,h2,h3{text-wrap:balance}
   }
 }
 
+.bank-qr{margin-top:22px;padding-top:20px;border-top:1px solid var(--line);text-align:center}.bank-qr .eyebrow{display:block;margin-bottom:12px}.bank-qr img{display:block;width:min(220px,100%);height:auto;margin:0 auto;border-radius:12px;border:1px solid var(--line);background:#fff}
+
 /* =========================================================
-   PUBLIC NFC LANDING PAGE — CLEAN WHITE MOBILE-FIRST DESIGN
-   ========================================================= */
+  PUBLIC NFC LANDING PAGE — CLEAN WHITE MOBILE-FIRST DESIGN
+  ========================================================= */
 .nfc-public-landing-page {
   background: #ffffff !important;
   min-height: 100vh;
