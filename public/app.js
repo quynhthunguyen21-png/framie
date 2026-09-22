@@ -252,7 +252,8 @@ function about(){shell(`<main class="about-page-v2">
 </section>
 </main>`)}
 const BLOG_COVERS=['/hinh8.jpg','/hinh9.jpg','/hinh10.jpg','/hinh11.jpg','/hinh12.jpg'];
-const blogCover=id=>BLOG_COVERS[Math.abs((id||0)-1)%BLOG_COVERS.length];
+const blogCover = post =>
+  post?.image || BLOG_COVERS[Math.abs((post?.id || 0) - 1) % BLOG_COVERS.length];
 
 const normalizeCategory = c => {
   if (!c) return 'Khác';
@@ -307,35 +308,92 @@ function parseFrontmatter(raw) {
 }
 
 function md2html(md) {
-  return md
-    // images first so they render as real HTML, not literal text
+  const tablePlaceholders = [];
+  const lines = md.split('\n');
+  const processed = [];
+
+  const parseRow = row =>
+    row.trim()
+      .replace(/^\|/, '')
+      .replace(/\|$/, '')
+      .split('|')
+      .map(cell => cell.trim());
+
+  const getAlign = cell => {
+    const left = cell.startsWith(':');
+    const right = cell.endsWith(':');
+    if (left && right) return 'center';
+    if (right) return 'right';
+    return 'left';
+  };
+
+  for (let i = 0; i < lines.length; i++) {
+    const line = lines[i];
+    const next = lines[i + 1] || '';
+
+    const isTableHeader =
+      /^\s*\|.*\|\s*$/.test(line) &&
+      /^\s*\|(?:\s*:?-{3,}:?\s*\|)+\s*$/.test(next);
+
+    if (isTableHeader) {
+      const headers = parseRow(line);
+      const alignments = parseRow(next).map(getAlign);
+
+      i += 2;
+      const rows = [];
+
+      while (
+        i < lines.length &&
+        /^\s*\|.*\|\s*$/.test(lines[i]) &&
+        lines[i].trim() !== ''
+      ) {
+        rows.push(parseRow(lines[i]));
+        i++;
+      }
+
+      i--;
+
+      const html =
+        `<div class="md-table-wrap"><table><thead><tr>` +
+        headers.map((h, j) =>
+          `<th style="text-align:${alignments[j] || 'left'}">${h}</th>`
+        ).join('') +
+        `</tr></thead><tbody>` +
+        rows.map(row =>
+          `<tr>${headers.map((_, j) =>
+            `<td style="text-align:${alignments[j] || 'left'}">${row[j] || ''}</td>`
+          ).join('')}</tr>`
+        ).join('') +
+        `</tbody></table></div>`;
+
+      tablePlaceholders.push(html);
+      processed.push(`@@FRAMIE_TABLE_${tablePlaceholders.length - 1}@@`);
+    } else {
+      processed.push(line);
+    }
+  }
+
+  return processed.join('\n')
     .replace(/!\[(.+?)\]\((.+?)\)/g, '<img src="$2" alt="$1" />')
     .replace(/^!\[(.+?)\]\((.+?)\)$/gm, '<figure class="md-figure"><img src="$2" alt="$1" /></figure>')
-    // headings
     .replace(/^### (.+)$/gm, '<h3>$1</h3>')
     .replace(/^## (.+)$/gm, '<h2>$1</h2>')
     .replace(/^# (.+)$/gm, '<h1>$1</h1>')
-    // bold + italic
     .replace(/\*\*\*(.+?)\*\*\*/g, '<strong><em>$1</em></strong>')
     .replace(/\*\*(.+?)\*\*/g, '<strong>$1</strong>')
     .replace(/\*(.+?)\*/g, '<em>$1</em>')
-    // blockquote
     .replace(/^> (.+)$/gm, '<blockquote>$1</blockquote>')
-    // hr
     .replace(/^---$/gm, '<hr>')
-    // unordered list
     .replace(/^- (.+)$/gm, '<li>$1</li>')
     .replace(/(<li>.*<\/li>\n?)+/g, m => `<ul>${m}</ul>`)
-    // inline code
     .replace(/`(.+?)`/g, '<code>$1</code>')
-    // links
     .replace(/\[(.+?)\]\((.+?)\)/g, '<a href="$2">$1</a>')
-    // paragraphs (lines not starting with html tags)
+    .replace(/@@FRAMIE_TABLE_(\d+)@@/g, (_, i) => tablePlaceholders[Number(i)])
     .split(/\n{2,}/)
     .map(block => {
       block = block.trim();
       if (!block) return '';
-      if (/^<(h[1-6]|ul|ol|blockquote|hr|li|img|figure)/.test(block)) return block;
+      if (/^<(h[1-6]|ul|ol|blockquote|hr|li|img|figure|div|table)/.test(block)) return block;
       return `<p>${block.replace(/\n/g, ' ')}</p>`;
     })
     .join('\n');
@@ -343,7 +401,7 @@ function md2html(md) {
 
 // List of all .md blog post slugs — add new file here to add new blog post
 const MD_BLOG_SLUGS = [
-  'khung-anh-nfc-la-gi-cach-hoat-dong-va-huong-dan-chon-mua',
+  'khung-anh-nfc',
   'qua-tang-cam-xuc',
   'thiet-ke-mot-framie',
   'dip-tang-qua',
@@ -555,6 +613,7 @@ async function blog(){
       excerpt: p.excerpt || fallback.excerpt,
       body: p.body || fallback.body,
       bodyHtml: p.bodyHtml || '',
+      image: p.image || fallback.image || null,
       date: p.date || fallback.date,
       readTime: p.readTime || fallback.readTime || '5 phút đọc',
       tags: p.tags && p.tags.length ? p.tags : (fallback.tags || ['kỷ niệm', 'framie'])
@@ -581,7 +640,7 @@ async function blog(){
       ${posts.map(p => `
         <a class="modern-blog-card" href="/blog/${p.slug}" data-category="${esc(p.category)}">
           <div class="modern-card-cover">
-            <img src="${blogCover(p.id)}" alt="${esc(p.title)}" loading="lazy">
+            <img src="${blogCover(p)}" alt="${esc(p.title)}" loading="lazy">
           </div>
           <div class="modern-card-content">
             <span class="modern-cat-badge">${esc(p.category)}</span>
@@ -655,7 +714,7 @@ async function blogPost(slug){
 
   shell(`<main class="page narrow post">
     <a class="text-link back-link" href="/blog">← Về Blog</a>
-    <div class="post-hero" style="background-image:url('${p.image || blogCover(p.id)}')">
+    <div class="post-hero" style="background-image:url('${p.image || blogCover(p)}')">
       <div class="post-hero-scrim">
         <span class="eyebrow">${esc(p.category)}</span>
         <h1>${esc(p.title)}</h1>
@@ -677,7 +736,7 @@ async function blogPost(slug){
         <h3>Bài viết khác</h3>
         ${related.map(r => `
           <a class="related-post" href="/blog/${r.slug}">
-            <img src="${blogCover(r.id)}" alt="${esc(r.title)}" loading="lazy">
+            <img src="${blogCover(r)}" alt="${esc(r.title)}" loading="lazy">
             <div>
               <small>${esc(r.category)}</small>
               <span>${esc(r.title)}</span>
