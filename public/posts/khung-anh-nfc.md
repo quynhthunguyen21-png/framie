@@ -3,6 +3,7 @@ id: 7
 slug: khung-anh-nfc
 title: Khung ảnh NFC là gì? Cách hoạt động, cách chọn và mua chuẩn nhất
 category: Công nghệ
+image: /blog1anh1.png
 excerpt: Một bức ảnh in truyền thống tuy đẹp nhưng vô hồn. Bài viết này sẽ bóc tách toàn bộ sự thật về công nghệ khung ảnh NFC — xu hướng quà tặng cá nhân hóa hàng đầu hiện nay.
 date: 2026-09-14
 readTime: 8 phút đọc
@@ -70,7 +71,7 @@ Mỗi dòng sản phẩm giải quyết một vấn đề khác nhau của ngư�
 **Nên chọn màn hình E-ink/LCD khi:** Bạn là người đam mê công nghệ, muốn một thiết bị trang trí phòng khách có khả năng tự động trình chiếu slideshow hàng nghìn bức ảnh, và chấp nhận việc phải cắm điện hay sạc pin liên tục.
 
 
-| Tiêu chí | Khung ảnh thường &emsp;&emsp; | Khung ảnh QR &emsp;&emsp; | Khung ảnh NFC &emsp;&emsp; |
+| Tiêu chí | Khung ảnh thường &emsp; | Khung ảnh QR &emsp;| Khung ảnh NFC &emsp; |
 | :--- | :---: | :---: | :---: |
 | Ảnh vật lý | Có | Có | Có |
 | Nội dung số | Không | Có | Có |
