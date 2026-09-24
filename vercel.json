@@ -9,5 +9,12 @@
       "source": "/((?!api(?:/|$)).*)",
       "destination": "/index.html"
     }
+  ],
+  "redirects": [
+    {
+      "source": "/blog/",
+      "destination": "/blog",
+      "permanent": true
+    }
   ]
 }
