@@ -403,6 +403,7 @@ function md2html(md) {
 const MD_BLOG_SLUGS = [
   'khung-anh-nfc',
   'qua-tang-cam-xuc',
+  'qua-tang-cho-gia-dinh',
   'thiet-ke-mot-framie',
   'dip-tang-qua',
   'nfc-la-gi',
@@ -505,7 +506,9 @@ function setSEO({ title, description, image } = {}) {
   // canonical link
   let canon = document.querySelector('link[rel="canonical"]');
   if (!canon) { canon = document.createElement('link'); canon.rel = 'canonical'; document.head.appendChild(canon); }
-  canon.href = location.href;
+  const canonicalPath = location.pathname.replace(/\/+$/, '') || '/';
+  const canonicalUrl = location.origin + canonicalPath;
+  canon.href = canonicalUrl;
 }
 
 const BLOG_POSTS_INITIAL = [
@@ -533,15 +536,15 @@ const BLOG_POSTS_INITIAL = [
     tags: ['quà tốt nghiệp', 'quà tặng ý nghĩa', 'kỷ niệm đẹp']
   },
   {
-    id: 3,
-    slug: 'y-tuong-qua-tang',
-    title: '7 ý tưởng Framie cho những người bạn yêu quý',
+    id: 8,
+    slug: 'qua-tang-cho-gia-dinh',
+    title: 'Framie là món quà gia đình vừa ý nghĩa vừa rất riêng',
     category: 'Ý tưởng',
-    excerpt: 'Sinh nhật, tốt nghiệp, yêu xa, gia đình và những ngày rất riêng.',
-    body: 'Hãy bắt đầu từ một khoảnh khắc, một câu nói hoặc một kỷ niệm. Sau đó xây trải nghiệm quanh điều đó bằng ảnh, video, âm thanh và lời nhắn.',
-    date: '2026-09-09',
-    readTime: '5p',
-    tags: ['1000 ngày yêu', 'kỷ niệm ngày cưới', 'album ảnh số']
+    excerpt: 'Tặng cha mẹ, ông bà và các thành viên trong gia đình bằng một khoảnh khắc đã lưu giữ.',
+    body: 'Một món quà đẹp không chỉ cần đắt mà còn cần đúng. Framie giúp lưu giữ những khoảnh khắc gia đình bằng ảnh, âm thanh và lời nhắn.',
+    date: '2026-09-14',
+    readTime: '4 phút đọc',
+    tags: ['quà tặng gia đình', 'framie', 'món quà ý nghĩa', 'kỷ niệm']
   },
   {
     id: 4,
@@ -576,17 +579,6 @@ const BLOG_POSTS_INITIAL = [
     readTime: '6p',
     tags: ['yêu xa', 'tình yêu lứa đôi', 'lưu giữ ký ức']
   },
-  {
-    id: 7,
-    slug: 'luu-giu-1000-ngay-yeu',
-    title: 'Lưu giữ 1000 ngày yêu bằng âm thanh và hình ảnh',
-    category: 'Kỷ niệm',
-    excerpt: 'Tổng hợp 1000 ngày bên nhau trong chiếc khung tranh thông minh kết hợp NFC.',
-    body: '1000 ngày bên nhau là chặng đường có đủ vui buồn, giận hờn và yêu thương. Tôn vinh kỷ niệm bằng album ảnh và lời chúc âm thanh.',
-    date: '2026-09-09',
-    readTime: '5p',
-    tags: ['1000 ngày yêu', 'kỷ niệm ngày cưới', 'album ảnh số']
-  }
 ];
 
 async function blog(){
@@ -985,7 +977,7 @@ function framePreviewFromConfig(config){const c=config||{};return `<div class="p
 function parseRoute(){const raw=location.pathname+location.search;const [p,q='']=raw.split('?');return {p:p||'/',q:new URLSearchParams(q)}}
 function navigate(path){history.pushState({},'',path);route()}
 async function setup(){refreshAuth();if(!S.user){navigate('/login');return}const {q}=parseRoute();const id=Number(q.get('design'));if(id&&(!S.loadedDesignId||S.loadedDesignId!==id)){try{const r=await fetch(API+'/designs/'+id,{headers:{Authorization:'Bearer '+S.token}});if(r.ok){const d=await r.json();S.design=d.config||defaultDesign();S.nfc=d.nfc||defaultNfc();if(S.nfc?.elements){const _n1=S.nfc.elements.find(e=>e.id==='n1');if(_n1)_n1.y=8.3;const _n2=S.nfc.elements.find(e=>e.id==='n2');if(_n2)_n2.y=9.43;const _cov=S.nfc.elements.find(e=>e.id==='cover1');if(_cov)_cov.y=4.77;const _allCovs=S.nfc.elements.filter(e=>e.type==='cover');_allCovs.forEach(c=>{if(c.y<15)c.y=4.77});const hasCover=S.nfc.elements.some(e=>e.type==='cover');const hasImg=S.nfc.elements.some(e=>e.type==='image');if(!hasCover&&!hasImg)S.nfc.elements.unshift({id:'cover1',type:'cover',x:50,y:4.77,width:84,height:210,rotate:0,z:1})}S.loadedDesignId=id;S.step=4;persist()}}catch{} }let orders=null;const fetchOrders=async()=>{if(!orders){try{const r=await fetch(API+'/orders',{headers:{Authorization:'Bearer '+S.token}});if(r.ok){const res=await r.json();orders=Array.isArray(res)?res:[]}else{if(r.status===401){signout();navigate('/login');return []}orders=[]}}catch{orders=[]}}return orders};if(!id&&S.loadedDesignId){const os=await fetchOrders();if(os.some(o=>o.designId===S.loadedDesignId)){S.productPlan=null;resetDesign();S.loadedDesignId=null}}if(S.loadedDesignId){const os=await fetchOrders();S.designHasOrder=os.some(o=>o.designId===S.loadedDesignId)}else{S.designHasOrder=false} renderSetup()}
-function route(){const {p}=parseRoute();if(p==='/')home();else if(p==='/about')about();else if(p==='/blog')blog();else if(p==='/blog/y-tuong-qua-tang'){history.replaceState({},'', '/blog/dip-tang-qua');blogPost('dip-tang-qua')}else if(p.startsWith('/blog/'))blogPost(p.slice(6));else if(p==='/shop')shop();else if(p==='/templates')templateLibrary();else if(p==='/contact')contact();else if(p==='/policy')policy();else if(p==='/login'||p==='/register'||p==='/forgot')auth();else if(p==='/auth/google/complete')googleAuthComplete();else if(p==='/setup')setup();else if(p==='/dashboard')dashboard();else if(p==='/cart')cart();else if(p==='/checkout')checkout();else if(p.startsWith('/m/'))nfcPublic(p.slice(3));else home()}
+function route(){const {p}=parseRoute();if(p==='/')home();else if(p==='/about')about();else if(p==='/blog')blog();else if(p.startsWith('/blog/'))blogPost(p.slice(6));else if(p==='/shop')shop();else if(p==='/templates')templateLibrary();else if(p==='/contact')contact();else if(p==='/policy')policy();else if(p==='/login'||p==='/register'||p==='/forgot')auth();else if(p==='/auth/google/complete')googleAuthComplete();else if(p==='/setup')setup();else if(p==='/dashboard')dashboard();else if(p==='/cart')cart();else if(p==='/checkout')checkout();else if(p.startsWith('/m/'))nfcPublic(p.slice(3));else home()}
 const routeWithGuestSetup=route;
 route=function(){
   if(location.pathname==='/setup'&&!S.user)S.user={guest:true};

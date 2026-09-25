@@ -6,8 +6,48 @@
       "destination": "/api/sitemap"
     },
     {
+      "source": "/about",
+      "destination": "/about.html"
+    },
+    {
+      "source": "/shop",
+      "destination": "/shop.html"
+    },
+    {
+      "source": "/templates",
+      "destination": "/templates.html"
+    },
+    {
+      "source": "/contact",
+      "destination": "/contact.html"
+    },
+    {
+      "source": "/policy",
+      "destination": "/policy.html"
+    },
+    {
+      "source": "/blog",
+      "destination": "/blog/index.html"
+    },
+    {
+      "source": "/blog/",
+      "destination": "/blog/index.html"
+    },
+    {
       "source": "/((?!api(?:/|$)).*)",
       "destination": "/index.html"
+    }
+  ],
+  "redirects": [
+    {
+      "source": "/blog/y-tuong-qua-tang",
+      "destination": "/blog/dip-tang-qua",
+      "permanent": true
+    },
+    {
+      "source": "/blog/khung-anh-nfc-la-gi-cach-hoat-dong-va-huong-dan-chon-mua",
+      "destination": "/blog/khung-anh-nfc",
+      "permanent": true
     }
   ]
 }

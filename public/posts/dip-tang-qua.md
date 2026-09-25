@@ -9,7 +9,7 @@ date: 2026-09-15
 readTime: 5 phút đọc
 tags: ý tưởng, quà tặng sáng tạo, sinh nhật, tốt nghiệp, kỷ niệm
 seoTitle: 7 dịp tặng quà lưu giữ kỷ niệm, đặc biệt là quà tặng cá nhân hóa cho những người bạn yêu quý
-seoDescription: Từ sinh nhật, tốt nghiệp đến kỷ niệm tình yêu — 7 dip có thể dùng Framie để tạo món quà độc đáo, có chiều sâu và đáng nhớ mãi.
+seoDescription: Từ sinh nhật, tốt nghiệp đến kỷ niệm tình yêu — 7 dịp có thể dùng Framie để tạo món quà độc đáo, có chiều sâu và đáng nhớ mãi.
 ---
 
 # 7 Dịp Tặng Quà Lưu Giữ Kỷ Niệm, Đặc Biệt Là Quà Tặng Cá Nhân Hóa Cho Những Người Bạn Yêu Quý
