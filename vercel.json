@@ -34,6 +34,38 @@
       "destination": "/blog/index.html"
     },
     {
+      "source": "/blog/khung-anh-nfc",
+      "destination": "/blog/khung-anh-nfc/index.html"
+    },
+    {
+      "source": "/blog/nfc-la-gi",
+      "destination": "/blog/nfc-la-gi/index.html"
+    },
+    {
+      "source": "/blog/qua-tang-cam-xuc",
+      "destination": "/blog/qua-tang-cam-xuc/index.html"
+    },
+    {
+      "source": "/blog/thiet-ke-mot-framie",
+      "destination": "/blog/thiet-ke-mot-framie/index.html"
+    },
+    {
+      "source": "/blog/dip-tang-qua",
+      "destination": "/blog/dip-tang-qua/index.html"
+    },
+    {
+      "source": "/blog/qua-tot-nghiep",
+      "destination": "/blog/qua-tot-nghiep/index.html"
+    },
+    {
+      "source": "/blog/bi-quyet-giu-lua-yeu-xa",
+      "destination": "/blog/bi-quyet-giu-lua-yeu-xa/index.html"
+    },
+    {
+      "source": "/blog/qua-tang-cho-gia-dinh",
+      "destination": "/blog/qua-tang-cho-gia-dinh/index.html"
+    },
+    {
       "source": "/((?!api(?:/|$)).*)",
       "destination": "/index.html"
     }
