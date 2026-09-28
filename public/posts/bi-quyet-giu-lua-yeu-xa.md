@@ -3,6 +3,7 @@ id: 6
 slug: bi-quyet-giu-lua-yeu-xa
 title: Bí quyết giữ lửa yêu xa bằng một chiếc khung tranh thông minh
 category: Tình yêu
+image: /blog2anh1.png
 excerpt: Dù cách nhau hàng ngàn km, một lần chạm NFC vẫn giúp bạn nghe lại giọng người ấy.
 date: 2026-09-14
 readTime: 6 phút đọc

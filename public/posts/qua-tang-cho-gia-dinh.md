@@ -3,6 +3,7 @@ id: 4
 slug: qua-tang-cho-gia-dinh
 title: Framie là món quà gia đình vừa ý nghĩa vừa rất riêng
 category: Ý tưởng
+image: /blog3anh2.png
 excerpt: Tặng cha mẹ, ông bà và các thành viên trong gia đình bằng một khoảnh khắc đã lưu giữ.
 date: 2026-09-14
 readTime: 4 phút đọc
