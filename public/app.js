@@ -399,18 +399,6 @@ function md2html(md) {
     .join('\n');
 }
 
-// List of all .md blog post slugs — add new file here to add new blog post
-const MD_BLOG_SLUGS = [
-  'khung-anh-nfc',
-  'qua-tang-cam-xuc',
-  'qua-tang-cho-gia-dinh',
-  'thiet-ke-mot-framie',
-  'dip-tang-qua',
-  'nfc-la-gi',
-  'qua-tot-nghiep',
-  'bi-quyet-giu-lua-yeu-xa',
-];
-
 // Fetch + parse a .md blog post from /posts/<slug>.md
 async function fetchMdPost(slug) {
   try {
@@ -443,10 +431,34 @@ async function fetchMdPost(slug) {
   } catch { return null; }
 }
 
-// Fetch all MD posts in parallel
+// Fetch all Markdown blog posts automatically from the sitemap.
+// Adding a new file to /public/posts/*.md is enough to make it appear in Blog.
 async function fetchAllMdPosts() {
-  const results = await Promise.all(MD_BLOG_SLUGS.map(fetchMdPost));
-  return sortBlogPosts(results.filter(Boolean));
+  try {
+    const sitemapRes = await fetch('/sitemap.xml', { cache: 'no-store' });
+    if (!sitemapRes.ok) return [];
+
+    const xml = await sitemapRes.text();
+    const urls = [...xml.matchAll(/<loc>([^<]+)<\/loc>/g)].map(m => m[1]);
+
+    const slugs = urls
+      .map(url => {
+        try {
+          const path = new URL(url, location.origin).pathname;
+          const match = path.match(/^\/blog\/([^/]+)$/);
+          return match ? decodeURIComponent(match[1]) : null;
+        } catch {
+          return null;
+        }
+      })
+      .filter(Boolean);
+
+    const uniqueSlugs = [...new Set(slugs)];
+    const results = await Promise.all(uniqueSlugs.map(fetchMdPost));
+    return sortBlogPosts(results.filter(Boolean));
+  } catch {
+    return [];
+  }
 }
 
 function sortBlogPosts(posts) {

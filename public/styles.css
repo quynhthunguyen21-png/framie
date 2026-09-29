@@ -1014,3 +1014,4 @@ h1,h2,h3{text-wrap:balance}
   padding: 8px 12px !important;
   line-height: 1.45 !important;
 }
+.post-body table{font-size:12px;line-height:1.5}.post-body table th,.post-body table td{font-size:12px;padding:8px 10px}.post-body table th{font-weight:600}

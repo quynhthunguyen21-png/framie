@@ -4,6 +4,7 @@ import path from 'node:path';
 import { fileURLToPath } from 'node:url';
 import { api } from './lib/api.js';
 import { readLocalFile, isCloudStorageEnabled } from './lib/storage.js';
+import sitemapHandler from './api/sitemap.js';
 
 const root = path.dirname(fileURLToPath(import.meta.url));
 const pub = path.join(root, 'public');
@@ -36,5 +37,5 @@ function staticFile(req, res) {
 }
 const json = (res, code, obj) => { res.writeHead(code, { 'Content-Type': 'application/json; charset=utf-8' }); res.end(JSON.stringify(obj)); };
 
-const server = http.createServer((req, res) => (req.url?.startsWith('/api/') ? api(req, res).catch(e => json(res, 500, { message: 'Server error', detail: e.message })) : staticFile(req, res)));
+const server = http.createServer((req, res) => { const pathname = new URL(req.url, 'http://localhost').pathname; if (pathname === '/sitemap.xml') return sitemapHandler(req, res); if (req.url?.startsWith('/api/')) return api(req, res).catch(e => json(res, 500, { message: 'Server error', detail: e.message })); return staticFile(req, res); });
 server.listen(process.env.PORT || 5173, () => console.log(`Framie running at http://localhost:${process.env.PORT || 5173}`));
